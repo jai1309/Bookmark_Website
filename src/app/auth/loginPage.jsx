@@ -8,7 +8,7 @@ export default function LoginPage() {
     await supabase.auth.signInWithOAuth({
       provider: "google",
       options: {
-        redirectTo: `http://localhost:3000/auth/callback`,
+        redirectTo: `https://bookmark-website-wine.vercel.app/auth/callback`,
       },
     });
   };
