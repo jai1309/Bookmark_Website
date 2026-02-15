@@ -55,16 +55,16 @@ web links with authentication and real-time database integration.
 
 ## Architecture & Folder Structure
 
-Bookmark_Website/ ├── lib/ # Supabase configuration
-├── public/ # Static assets
-├── src/ # Application source code
-│ ├── app/ # Pages (App Router)
-│ ├── components/ # Reusable components
-│ └── styles/ # Global styles
-├── next.config.mjs
-├── tailwind.config.mjs
-├── postcss.config.mjs
-├── package.json
+Bookmark_Website/ ├── lib/ \# Supabase configuration\
+├── public/ \# Static assets\
+├── src/ \# Application source code\
+│ ├── app/ \# Pages (App Router)\
+│ ├── components/ \# Reusable components\
+│ └── styles/ \# Global styles\
+├── next.config.mjs\
+├── tailwind.config.mjs\
+├── postcss.config.mjs\
+├── package.json\
 └── README.md
 
 ------------------------------------------------------------------------
