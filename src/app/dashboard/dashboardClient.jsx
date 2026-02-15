@@ -27,7 +27,7 @@ export default function DashboardClient() {
   useEffect(() => {
     loadBookmarks()
 
-    // 🔥 REALTIME SUBSCRIPTION
+    //REALTIME SUBSCRIPTION
 const channel = supabase
   .channel("bookmarks-realtime")
   .on(
