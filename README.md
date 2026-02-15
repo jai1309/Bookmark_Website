@@ -9,15 +9,15 @@ web links with authentication and real-time database integration.
 
 ## Table of Contents
 
--   Features\
--   Tech Stack\
--   Architecture & Folder Structure\
--   Setup & Installation\
--   Environment Variables\
--   Application Flow\
--   Contributing\
--   License\
--   Acknowledgements
+- [Features](#features)  
+- [Tech Stack](#tech-stack)  
+- [Architecture & Folder Structure](#architecture--folder-structure)  
+- [Setup & Installation](#setup--installation)  
+- [Environment Variables](#environment-variables)
+- [Application FLow](#application-flow)  
+- [Contributing](#contributing)  
+- [License](#license)  
+- [Acknowledgements](#acknowledgements)  
 
 ------------------------------------------------------------------------
 
