@@ -15,7 +15,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata = {
-  title: "Masky - Save smarter",
+  title: "Marksy - Save smarter",
   description: "A Bookmarking app. Save and organize your favorite links with ease.",
   icons: {
     icon: "/bookmark.png"
