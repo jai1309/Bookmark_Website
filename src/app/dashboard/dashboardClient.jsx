@@ -1,119 +1,114 @@
-"use client"
+"use client";
 
-import { useEffect, useState } from "react"
-import { createClient } from "@/lib/supabase/client"
-import { toast } from "react-hot-toast"
-import { Trash2, Pencil } from "lucide-react"
+import { useEffect, useState } from "react";
+import { createClient } from "@/lib/supabase/client";
+import { toast } from "react-hot-toast";
+import { Trash2, Pencil } from "lucide-react";
 
 export default function DashboardClient() {
-  const supabase = createClient()
+  const supabase = createClient();
 
-  const [title, setTitle] = useState("")
-  const [url, setUrl] = useState("")
-  const [desc, setDesc] = useState("")
-  const [bookmarks, setBookmarks] = useState([])
-  const [editingId, setEditingId] = useState(null)
+  const [title, setTitle] = useState("");
+  const [url, setUrl] = useState("");
+  const [desc, setDesc] = useState("");
+  const [bookmarks, setBookmarks] = useState([]);
+  const [editingId, setEditingId] = useState(null);
 
   // Load bookmarks
   const loadBookmarks = async () => {
     const { data } = await supabase
       .from("bookmarks")
       .select("*")
-      .order("created_at", { ascending: false })
+      .order("created_at", { ascending: false });
 
-    setBookmarks(data || [])
-  }
+    setBookmarks(data || []);
+  };
 
   useEffect(() => {
-    loadBookmarks()
+    loadBookmarks();
 
     //REALTIME SUBSCRIPTION
-const channel = supabase
-  .channel("bookmarks-realtime")
-  .on(
-  "postgres_changes",
-  {
-    event: "*",
-    schema: "public",
-    table: "bookmarks",
-  },
-  () => {
-    loadBookmarks()
-  }
-)
-.subscribe()
-
-
+    const channel = supabase
+      .channel("bookmarks-realtime")
+      .on(
+        "postgres_changes",
+        {
+          event: "*",
+          schema: "public",
+          table: "bookmarks",
+        },
+        () => {
+          loadBookmarks();
+        },
+      )
+      .subscribe();
 
     return () => {
-      supabase.removeChannel(channel)
-    }
-  }, [])
+      supabase.removeChannel(channel);
+    };
+  }, []);
 
   // Add OR Update bookmark
   const addOrUpdateBookmark = async (e) => {
-    e.preventDefault()
+    e.preventDefault();
 
     if (!title || !url) {
-      toast.error("Title and URL are required!")
-      return
+      toast.error("Title and URL are required!");
+      return;
     }
 
     if (editingId) {
       const { error } = await supabase
         .from("bookmarks")
         .update({ title, url, desc })
-        .eq("id", editingId)
+        .eq("id", editingId);
 
       if (error) {
-        toast.error("Failed to update!")
-        return
+        toast.error("Failed to update!");
+        return;
       }
 
-      toast.success("Bookmark updated Successfully!")
-      setEditingId(null)
+      toast.success("Bookmark updated Successfully!");
+      setEditingId(null);
     } else {
       const { error } = await supabase
         .from("bookmarks")
-        .insert([{ title, url, desc }])
+        .insert([{ title, url, desc }]);
 
       if (error) {
-        toast.error("Failed to add bookmark!")
-        return
+        toast.error("Failed to add bookmark!");
+        return;
       }
 
-      toast.success("Bookmark added Successfully!")
+      toast.success("Bookmark added Successfully!");
     }
 
-    setTitle("")
-    setUrl("")
-    setDesc("")
-    loadBookmarks()
-  }
+    setTitle("");
+    setUrl("");
+    setDesc("");
+    loadBookmarks();
+  };
 
   // Delete bookmark
   const deleteBookmark = async (id) => {
-    const { error } = await supabase
-      .from("bookmarks")
-      .delete()
-      .eq("id", id)
+    const { error } = await supabase.from("bookmarks").delete().eq("id", id);
 
     if (error) {
-      toast.error("Failed to delete")
-      return
+      toast.error("Failed to delete");
+      return;
     }
 
-    toast.success("Bookmark deleted")
-    loadBookmarks()
-  }
+    toast.success("Bookmark deleted");
+    loadBookmarks();
+  };
 
   // Start editing
   const startEdit = (bookmark) => {
-    setTitle(bookmark.title)
-    setUrl(bookmark.url)
-    setDesc(bookmark.desc || "")
-    setEditingId(bookmark.id)
-  }
+    setTitle(bookmark.title);
+    setUrl(bookmark.url);
+    setDesc(bookmark.desc || "");
+    setEditingId(bookmark.id);
+  };
 
   return (
     <main className="p-6 max-w-xl mx-auto">
@@ -160,10 +155,14 @@ const channel = supabase
               className="border rounded p-3 flex justify-between items-start"
             >
               <div>
-                <h2 className="font-semibold">Title - {bookmark.title}</h2>
-                <p className="text-sm mt-1">URL - {bookmark.url}</p>
+                <h2 className="font-semibold break-words">
+                  Title - {bookmark.title}
+                </h2>
+
+                <p className="text-sm mt-1 break-all">URL - {bookmark.url}</p>
+
                 {bookmark.desc && (
-                  <p className="text-sm mt-1">
+                  <p className="text-sm mt-1 break-words">
                     Description - {bookmark.desc}
                   </p>
                 )}
@@ -191,5 +190,5 @@ const channel = supabase
         </div>
       )}
     </main>
-  )
+  );
 }
